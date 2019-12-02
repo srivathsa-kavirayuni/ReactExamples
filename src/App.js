@@ -3,25 +3,28 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './App.css';
 
-import { fetchWhiskies } from './actions';
+import { fetchData, clearData } from './actions';
 
-import WhiskyGrid from './components/WhiskyGrid';
+import AlbumsGrid from './components/AlbumsGrid';
 
 class App extends Component {
     render() {
         const {
-            fetchWhiskies,
+            fetchData,
+            clearData,
             isLoading,
             error,
-            whiskies
+            data
         } = this.props;
-
+const slicedData = data && data.length > 0 ? data.slice(0,15) : data
+ console.log('Data Is : ', data, slicedData)
         return (
             <div className="App">
-                <button onClick={fetchWhiskies}>Fetch whiskies</button>
-                {isLoading && <h1>Fetching data</h1>}
-                {!isLoading && !error && <WhiskyGrid whiskies={whiskies} />}
+                <button onClick={fetchData}>Fetch Data</button>
+                {isLoading && <h1>Fetching Data</h1>}
+                {!isLoading && !error && <AlbumsGrid data={slicedData} />}
                 {error && <h1>{error}</h1>}
+                <button onClick={clearData}>Clear Data</button>
             </div>
         );
     }
@@ -31,7 +34,8 @@ const mapStateToProps = state => ({ ...state });
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-        fetchWhiskies
+        fetchData,
+        clearData
     }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

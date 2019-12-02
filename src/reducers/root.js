@@ -1,36 +1,44 @@
 import {
-    FETCH_WHISKIES,
-    FETCH_WHISKIES_FAILURE,
-    FETCH_WHISKIES_SUCCESS
+    FETCH_DATA,
+    FETCH_DATA_FAILURE,
+    FETCH_DATA_SUCCESS,
+    CLEAR_DATA
 } from '../actions';
 
 const initialState = {
-    whiskies: [], // for this example we'll make an app that fetches and lists whiskies
+    data: [], // for this example we'll make an app that fetches and lists data
     isLoading: false,
     error: false
 };
 
 export default function rootReducer(state = initialState, action) {
     switch (action.type) {
-        case FETCH_WHISKIES:
-            console.log('Fetching Whiskeys')
+        case FETCH_DATA:
+            console.log('Fetching Albums')
             return {
                 isLoading: true
             }
-        case FETCH_WHISKIES_SUCCESS:
-            console.log('Fetched Whiskeys the data is : ', action.payload)
+        case FETCH_DATA_SUCCESS:
+            console.log('Fetched Albums the data is : ', action.payload)
             return {
-                whiskies: action.payload || [],
+                data: action.payload || [],
                 isLoading: false,
                 error: false,
             }
-        case FETCH_WHISKIES_FAILURE:
-            console.log('Fetched Whiskeys failed  : ', action.payload)
+        case FETCH_DATA_FAILURE:
+            console.log('Fetched Albums failed  : ', action.payload)
             return {
-                whiskies: action.payload || [],
+                data: action.payload || [],
                 isLoading: false,
                 error: true,
             }
+        case CLEAR_DATA:
+            console.log('Clearing Data  : ', action.payload)
+            return action.payload ? {
+                data: action.payload || [],
+                isLoading: false,
+                error: true,
+            } : {...state}
             default:
             return state;
     }
